@@ -10,10 +10,6 @@ warnings.filterwarnings("ignore")
 
 APP_PATH = str(pathlib.Path(__file__).parent.resolve())
 
-with open(os.path.join(APP_PATH, os.path.join('data', 'custom.geo.json')), 'r') as f:
-  counties = json.load(f)
-
-
 def initial_df():
     url = os.path.join(APP_PATH, os.path.join('data', 'F1_4_Detailed releases at facility level with E-PRTR Sector and Annex I Activity detail into Air.csv'))
     return pd.read_csv(url, on_bad_lines='skip', sep=',')
