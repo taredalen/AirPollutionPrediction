@@ -17,3 +17,7 @@ Next week:
 * Computing environment to run ML experiments
 * Linear regression on tabular and time series data
 * EDA (Exploration Data Analysis) 
+
+
+
+// TODO : afficher des unites 

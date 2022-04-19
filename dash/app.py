@@ -1,14 +1,19 @@
-import ssl
+import warnings
+
+warnings.filterwarnings('ignore')
+
 import dash
 import dash_core_components as dcc
-import dash_html_components as html
-from dash.dependencies import Input, Output, State
 import dash_daq as daq
+import dash_html_components as html
 import plotly.express as px
+from dash.dependencies import Input, Output, State
 
 from data import *
 
-MAPBOX_ACCESS_TOKEN: str = open("mapbox_token").read()
+clrtap_df = initial_clrtap_df()
+
+MAPBOX_ACCESS_TOKEN: str = open('mapbox_token').read()
 MAPBOX_STYLE = "mapbox://styles/plotlymapbox/cjyivwt3i014a1dpejm5r7dwr"
 
 app = dash.Dash(
@@ -51,7 +56,7 @@ map_toggle = daq.ToggleSwitch(
 
 satellite_dropdown = dcc.Dropdown(
     id="dropdown-component",
-    options=country_emissions()['Country'].unique(),
+    options=clrtap_df['Country'].unique(),
     clearable=False,
     value="France",
 )
@@ -74,6 +79,7 @@ side_panel_layout = html.Div(
         html.Div(id="panel-side-text", children=[satellite_title, satellite_body]),
     ],
 )
+
 
 # Satellite location tracker
 
@@ -105,7 +111,7 @@ histogram = html.Div(
             id="histogram-header",
             children=[
                 html.H1(
-                    id="histogram-title", children=["Gothenburg Protocol, LRTAP Convention"],
+                    id="histogram-title", children=[]
                 )
             ],
         ),
@@ -116,13 +122,15 @@ histogram = html.Div(
     ],
 )
 
+
 # -----------------------------------------------------------------------------------------------------------------------
 # Mapbox
 
 @app.callback(Output('world-map', 'figure'),
+              Output('histogram-graph', 'figure'),
+              Output('histogram-title', 'children'),
               Input('dropdown-component', 'value'))
 def show_map(value):
-
     figure = px.scatter_mapbox(country_df(value),
                                lat="Latitude", lon="Longitude", hover_name="countryName",
                                hover_data=["EPRTRSectorCode", "emissions"],
@@ -133,25 +141,30 @@ def show_map(value):
                          autosize=True,
                          paper_bgcolor="#1e1e1e",
                          plot_bgcolor="#1e1e1e")
-    return figure
 
+    hist = px.bar(sector_emissions_per_country(clrtap_df, value, 'All'),
+                  x='Year', y='Emissions', color='Sector_label_EEA', barmode="overlay",
+                  height=750, color_discrete_sequence=px.colors.qualitative.Vivid)
+    hist.update_layout(margin={'t': 30, 'r': 35, 'b': 40, 'l': 50},
+                       legend=dict(title=None, orientation='v', y=0.7, yanchor='bottom', x=1, xanchor='right'),
+                       font=dict(color='gray'),
+                       paper_bgcolor='#2b2b2b',
+                       plot_bgcolor='#2b2b2b',
+                       autosize=True,
+                       bargap=0.1,
+                       xaxis={"dtick": 5, "gridcolor": "#636363", "showline": False},
+                       yaxis={"showgrid": False},
+                       height=650)
 
-@app.callback(Output('histogram-graph', 'figure'),
-              Input('dropdown-component', 'value'))
-def show_histogram_graph(value):
-    figure = px.bar(sector_emissions_per_country(value),
-                    x='Year', y='Emissions', color='Sector_name', barmode="overlay",
-                    height=750, color_discrete_sequence=px.colors.qualitative.Vivid)
-    figure.update_layout(margin={'t': 30, 'r': 35, 'b': 40, 'l': 50},
-                         legend=dict(title=None, orientation='h', y=1, yanchor='bottom', x=0.5, xanchor='center'),
-                         font=dict(color='gray'),
-                         paper_bgcolor='#2b2b2b',
-                         plot_bgcolor='#2b2b2b',
-                         autosize=True,
-                         bargap=0.1,
-                         xaxis={"dtick": 5, "gridcolor": "#636363", "showline": False},
-                         yaxis={"showgrid": False})
-    return figure
+    options = emissions_per_country(clrtap_df, value)['Pollutant_name'].unique()
+
+    h = ["Gothenburg Protocol, LRTAP Convention",
+         dcc.Dropdown(id="dropdown-component-second",
+                      options=options,
+                      clearable=False,
+                      value='All')]
+    return figure, hist, h
+
 
 # -----------------------------------------------------------------------------------------------------------------------
 
@@ -200,7 +213,6 @@ root_layout = html.Div(
 )
 
 app.layout = root_layout
-
 
 
 @app.callback(
