@@ -10,34 +10,6 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="/dash/data/LCP_database_v5/5_Desulphurisation.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="&#9;" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/dash/data/LCP_database_v5/6_UsefulHeat.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="&#9;" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/dash/data/LCP_database_v5/7_IED_Derogations.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="&#9;" />
-            </Attribute>
-          </value>
-        </entry>
-        <entry key="/dash/new_clrtap.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="&#9;" />
-            </Attribute>
-          </value>
-        </entry>
       </map>
     </option>
   </component>
