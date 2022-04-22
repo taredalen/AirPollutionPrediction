@@ -331,12 +331,18 @@ body {
 
 #histogram-title {
     display: block;
-    font-size: 1rem;
+    font-size: 1.3rem;
     font-weight: normal;
  }
 #histogram-dropdown {
     display: block;
-    font-size: 1rem;
+    font-weight: normal;
+    width: 200px;
+    font-size: 0.8rem;
+  }
+#histogram-dropdown-sector {
+    display: block;
+    font-size: 0.8rem;
     font-weight: normal;
     width: 300px;
   }

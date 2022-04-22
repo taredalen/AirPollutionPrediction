@@ -11,8 +11,6 @@ from dash.dependencies import Input, Output, State
 
 from data import *
 
-clrtap_df = get_clrtap_df()
-
 MAPBOX_ACCESS_TOKEN: str = open('mapbox_token').read()
 MAPBOX_STYLE = "mapbox://styles/plotlymapbox/cjyivwt3i014a1dpejm5r7dwr"
 
@@ -57,7 +55,7 @@ map_toggle = daq.ToggleSwitch(
 
 satellite_dropdown = dcc.Dropdown(
     id="dropdown-component",
-    options=clrtap_df['Country'].unique(),
+    options=get_clrtap_df()['Country'].unique(),
     clearable=False,
     value="France",
 )
@@ -112,13 +110,21 @@ histogram = html.Div(
             id='histogram-header',
             children=[
                 html.H1(
-                    id='histogram-title', children=['Gothenburg Protocol, LRTAP Convention']
+                    id='histogram-title',
+                    children=['Gothenburg Protocol, LRTAP Convention']
                 ),
+                html.H1(id='histogram-dropdown-sector',
+                        children=[dcc.Dropdown(id='dropdown-component-sector',
+                                               options=np.append('All', get_clrtap_df()['Sector_label_EEA'].unique()),
+                                               clearable=False,
+                                               value='All')]
+                        ),
                 html.H1(
-                    id='histogram-dropdown', children=[dcc.Dropdown(id='dropdown-component-second',
-                                                                    options=get_polluants(),
-                                                                    clearable=False,
-                                                                    value='All')]
+                    id='histogram-dropdown',
+                    children=[dcc.Dropdown(id='dropdown-component-second',
+                                           options=get_polluants(),
+                                           clearable=False,
+                                           value='All')]
                 )
             ],
         ),
@@ -146,22 +152,21 @@ def show_initial_elements(country):
                          autosize=True,
                          paper_bgcolor='#1e1e1e',
                          plot_bgcolor='#1e1e1e')
-
-    options = emissions_per_country(clrtap_df, country)
-
     return figure
 
 
 @app.callback(Output('histogram-graph', 'figure'),
               Input('dropdown-component', 'value'),
-              Input('dropdown-component-second', 'value'))
-def show_initial_elements(country, pollutant):
-    df = sector_emissions_per_country(country, pollutant)
+              Input('dropdown-component-second', 'value'),
+              Input('dropdown-component-sector', 'value'))
+def show_initial_elements(country, pollutant, sector):
+    df = sector_emissions_per_country(country, pollutant, sector)
 
+    print(df['Unit'].unique())
     hist = px.bar(df,
                   x='Year', y='Emissions', color='Sector_label_EEA', barmode='overlay',
+                  hover_data=['Sector_name'],
                   height=750, color_discrete_sequence=px.colors.qualitative.Vivid)
-
     hist.update_layout(margin={'t': 30, 'r': 35, 'b': 40, 'l': 50},
                        legend=dict(title=None, orientation='v', y=0.7, yanchor='bottom', x=1, xanchor='right'),
                        font=dict(color='gray'),

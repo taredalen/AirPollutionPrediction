@@ -16,7 +16,8 @@ def get_clrtap_df():
     return df
 
 def get_map_df():
-    url = os.path.join(APP_PATH, os.path.join('data', 'F1_4_Detailed releases at facility level with E-PRTR Sector and Annex I Activity detail into Air.csv'))
+    url = os.path.join(APP_PATH, os.path.join('data', 'F1_4_Detailed releases at facility level with E-PRTR Sector '
+                                                      'and Annex I Activity detail into Air.csv'))
     return pd.read_csv(url, on_bad_lines='skip', sep=',')
 
 map_df = get_map_df()
@@ -41,14 +42,14 @@ def clear_clrtap_df():
         (df['Sector_code'].isin(['2A1', '2A2', '2A3', '2A5a', '2A5b', '2A5c', '2A6', '2B1', '2B10a', '2B10b', '2B2', '2B3', '2B5', '2B6', '2B7', '2C1', '2C2', '2C3', '2C4', '2C5', '2C6', '2C7a', '2C7b', '2C7c', '2C7d', '2D3a', '2D3b', '2D3c', '2D3d', '2D3e', '2D3f', '2D3g', '2D3h', '2D3i', '2G', '2H1', '2H2', '2H3', '2I', '2J', '2K', '2L'])),
         (df['Sector_code'].isin(['3B1a', '3B1b', '3B2', '3B3', '3B4a', '3B4d', '3B4e', '3B4f', '3B4gi', '3B4gii', '3B4giii', '3B4giv', '3B4h', '3Da1', '3Da2a', '3Da2b', '3Da2c', '3Da3', '3Da4', '3Db', '3Dc', '3Dd', '3De', '3Df', '3F', '3I'])),
         (df['Sector_code'].isin(['5A', '5B1', '5B2', '5C1a', '5C1bi', '5C1bii', '5C1biii', '5C1biv', '5C1bv', '5C1bvi', '5C2', '5D1', '5D2', '5D3', '5E', '6A'])),
-        (df['Sector_code'].isin(['6A'])),
-        (df['Sector_code'] == 'National total for the entire territory (based on fuel sold)')]
+        (df['Sector_code'].isin(['6A', 'test'])),
+        (df['Sector_code'].isin(['National total for the entire territory (based on fuel sold)', 'NATIONAL TOTAL']))]
 
     values = ['Energy production and distribution', 'Energy use in industry', 'Non-road transport',
               'Road transport', 'Commercial, institutional and households', 'Industrial processes and product use',
-              'Agriculture', 'Waste', 'Other', 'National total for the entire territory (based on fuel sold)']
+              'Agriculture', 'Waste', 'Other', 'National total for the entire territory']
 
-    df['Sector_label_EEA'] = np.select(conditions, values)
+    df['Sector_label_EEA'] = np.select(conditions, values, default='Other')
     df.to_csv(r'clean_clrtap.csv', index=False, sep='\t')
 
 def get_polluants():
@@ -67,31 +68,23 @@ def country_df_map(country):
     map_df.drop(index_pollutant, inplace=True)
     return map_df
 
-def sector_emissions_per_country(country, pollutant):
+def sector_emissions_per_country(country, pollutant, sector):
     df = get_clrtap_df()
     index_country = df[df['Country'] != country].index
     df.drop(index_country, inplace=True)
 
     if pollutant != 'All':
-        print('not all')
         index_pollutant = df[df['Pollutant_name'] != pollutant].index
         df.drop(index_pollutant, inplace=True)
 
-    print(df['Year'].count())
-
-    index_sector = df[df['Sector_label_EEA'] == '0'].index
-    df.drop(index_sector, inplace=True)
+    if sector != 'All':
+        index_sector = df[df['Sector_label_EEA'] != sector].index
+        df.drop(index_sector, inplace=True)
 
     index_country = df[df['Country'] != country].index
     df.drop(index_country, inplace=True)
 
     return df
-
-def emissions_per_country(df, country):
-    index_country = df[df['Country'] != country].index
-    df.drop(index_country, inplace=True)
-
-    return np.append('All', df['Pollutant_name'].unique())
 
 '''''fig = px.choropleth_mapbox(sector_emissions_per_country('France'),
                            geojson=counties, locations='Country', color='Emissions',
