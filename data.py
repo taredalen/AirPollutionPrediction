@@ -1,16 +1,27 @@
-import json
 import os
 import pathlib
-
 import numpy as np
 import pandas as pd
 
 import warnings
 warnings.filterwarnings("ignore")
 
-
 APP_PATH = str(pathlib.Path(__file__).parent.resolve())
 
+#-----------------------------------------------------------------------------------------------------------------------
+
+def get_clrtap_df():
+    url = os.path.join(APP_PATH, os.path.join('data', 'clean_clrtap.csv'))
+    df = pd.read_csv(url, on_bad_lines='skip', sep='\t')
+    return df
+
+def get_map_df():
+    url = os.path.join(APP_PATH, os.path.join('data', 'F1_4_Detailed releases at facility level with E-PRTR Sector and Annex I Activity detail into Air.csv'))
+    return pd.read_csv(url, on_bad_lines='skip', sep=',')
+
+map_df = get_map_df()
+
+#-----------------------------------------------------------------------------------------------------------------------
 
 def clear_clrtap_df():
     url = os.path.join(APP_PATH, os.path.join('data', 'CLRTAP_NVFR14_V21_GF.csv'))
@@ -20,7 +31,6 @@ def clear_clrtap_df():
 
     # TODO: replace data with random one to check if we can drop those rows, ref lib for check a pattern of missing value
     # https://github.com/ResidentMario/missingno = > amputation missing values
-
 
     conditions = [
         (df['Sector_code'].isin(['1A1a', '1A1b', '1A1c', '1B1a', '1B1b', '1B1c', '1B2ai', '1B2aiv', '1B2av', '1B2b', '1B2c', '1B2d'])),
@@ -40,46 +50,48 @@ def clear_clrtap_df():
 
     df['Sector_label_EEA'] = np.select(conditions, values)
     df.to_csv(r'clean_clrtap.csv', index=False, sep='\t')
-    print('ok')
 
-def initial_clrtap_df():
-    url = os.path.join(APP_PATH, os.path.join('data', 'clean_clrtap.csv'))
-    df = pd.read_csv(url, on_bad_lines='skip', sep='\t')
-    return df
+def get_polluants():
+    df = pd.DataFrame(get_clrtap_df(), columns=['Country', 'Pollutant_name'])
+    df = df.groupby('Pollutant_name')['Country'].apply(list).reset_index(name='Country_Pollutant')
+    df['count'] = df['Country_Pollutant'].str.len()
 
-def initial_df():
-    url = os.path.join(APP_PATH, os.path.join('data', 'F1_4_Detailed releases at facility level with E-PRTR Sector and Annex I Activity detail into Air.csv'))
-    return pd.read_csv(url, on_bad_lines='skip', sep=',')
-
-def country_df(country):
-    df = initial_df()
-    index_pollutant = df[df['countryName'] != country].index
+    index_pollutant = df[df['count'] < df['count'].mean()].index
     df.drop(index_pollutant, inplace=True)
-    return df
 
-def country_emissions():
-    url = os.path.join(APP_PATH, os.path.join('data', 'CLRTAP_NVFR14_V21_GF.csv'))
-    df = pd.read_csv(url, on_bad_lines='skip', sep='\t')
-    df = df.dropna(how='any', subset=['Emissions'])
-    return df
+    return df['Pollutant_name'].to_numpy()
 
-def sector_emissions_per_country(df, country, pollutant):
+#----------------------------------------------------------------------------------------------------------------------
+def country_df_map(country):
+    index_pollutant = map_df[map_df['countryName'] != country].index
+    map_df.drop(index_pollutant, inplace=True)
+    return map_df
+
+def sector_emissions_per_country(country, pollutant):
+    df = get_clrtap_df()
+    index_country = df[df['Country'] != country].index
+    df.drop(index_country, inplace=True)
+
     if pollutant != 'All':
+        print('not all')
         index_pollutant = df[df['Pollutant_name'] != pollutant].index
         df.drop(index_pollutant, inplace=True)
+
+    print(df['Year'].count())
 
     index_sector = df[df['Sector_label_EEA'] == '0'].index
     df.drop(index_sector, inplace=True)
 
     index_country = df[df['Country'] != country].index
     df.drop(index_country, inplace=True)
+
     return df
 
 def emissions_per_country(df, country):
     index_country = df[df['Country'] != country].index
     df.drop(index_country, inplace=True)
-    return df
 
+    return np.append('All', df['Pollutant_name'].unique())
 
 '''''fig = px.choropleth_mapbox(sector_emissions_per_country('France'),
                            geojson=counties, locations='Country', color='Emissions',
