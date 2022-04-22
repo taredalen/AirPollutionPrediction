@@ -163,6 +163,7 @@ def show_initial_elements(country, pollutant, sector):
     df = sector_emissions_per_country(country, pollutant, sector)
 
     print(df['Unit'].unique())
+    print(df.info())
     hist = px.bar(df,
                   x='Year', y='Emissions', color='Sector_label_EEA', barmode='overlay',
                   hover_data=['Sector_name'],

@@ -3,6 +3,9 @@ import pathlib
 import numpy as np
 import pandas as pd
 
+import pandas as pd
+from sklearn import preprocessing
+
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -33,7 +36,7 @@ def clear_clrtap_df():
     # TODO: replace data with random one to check if we can drop those rows, ref lib for check a pattern of missing value
     # https://github.com/ResidentMario/missingno = > amputation missing values
 
-    conditions = [
+    sector_conditions = [
         (df['Sector_code'].isin(['1A1a', '1A1b', '1A1c', '1B1a', '1B1b', '1B1c', '1B2ai', '1B2aiv', '1B2av', '1B2b', '1B2c', '1B2d'])),
         (df['Sector_code'].isin(['1A2a', '1A2b', '1A2c', '1A2d', '1A2e', '1A2f', '1A2gvii', '1A2gviii'])),
         (df['Sector_code'].isin(['1A3ai(i)', '1A3aii(i)', '1A3c', '1A3di(ii)', '1A3dii', '1A3ei', '1A3eii', '1A4ciii'])),
@@ -45,12 +48,24 @@ def clear_clrtap_df():
         (df['Sector_code'].isin(['6A', 'test'])),
         (df['Sector_code'].isin(['National total for the entire territory (based on fuel sold)', 'NATIONAL TOTAL']))]
 
-    values = ['Energy production and distribution', 'Energy use in industry', 'Non-road transport',
+    sector_values = ['Energy production and distribution', 'Energy use in industry', 'Non-road transport',
               'Road transport', 'Commercial, institutional and households', 'Industrial processes and product use',
               'Agriculture', 'Waste', 'Other', 'National total for the entire territory']
 
-    df['Sector_label_EEA'] = np.select(conditions, values, default='Other')
+    df['Sector_label_EEA'] = np.select(sector_conditions, sector_values, default='Other')
+
+    unit_conditions = [
+        (df['Sector_code'] == 'Mg'),
+        (df['Sector_code'] == 'Gg'),
+        (df['Sector_code'] == 'g')]
+
+    unit_values = [df['Emissions']/1000000, df['Emissions']*1000000, df['Emissions']/1000]
+    df['Emissions'] = np.select(unit_conditions, unit_values, default=df['Emissions'])
+
+    df.drop(columns='Unit', axis=1) #  TODO : data standardization ?? impossible to drop column, check for later
+
     df.to_csv(r'clean_clrtap.csv', index=False, sep='\t')
+
 
 def get_polluants():
     df = pd.DataFrame(get_clrtap_df(), columns=['Country', 'Pollutant_name'])
