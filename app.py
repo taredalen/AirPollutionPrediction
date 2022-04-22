@@ -1,4 +1,5 @@
 import warnings
+
 warnings.filterwarnings('ignore')
 
 import dash
@@ -115,9 +116,9 @@ histogram = html.Div(
                 ),
                 html.H1(
                     id='histogram-dropdown', children=[dcc.Dropdown(id='dropdown-component-second',
-                     options=[],
-                     clearable=False,
-                     value='All')]
+                                                                    options=get_polluants(),
+                                                                    clearable=False,
+                                                                    value='All')]
                 )
             ],
         ),
@@ -129,10 +130,10 @@ histogram = html.Div(
     ],
 )
 
+
 # Show mapbox & histogram related to the CLRTAP Dataset ----------------------------------------------------------------
 
 @app.callback(Output('world-map', 'figure'),
-              Output('dropdown-component-second', 'options'),
               Input('dropdown-component', 'value'))
 def show_initial_elements(country):
     figure = px.scatter_mapbox(country_df_map(country),
@@ -148,15 +149,13 @@ def show_initial_elements(country):
 
     options = emissions_per_country(clrtap_df, country)
 
-    return figure, options
+    return figure
 
 
 @app.callback(Output('histogram-graph', 'figure'),
               Input('dropdown-component', 'value'),
-              Input('dropdown-component-second', 'value'),
-              State('histogram-graph', 'figure'))
+              Input('dropdown-component-second', 'value'))
 def show_initial_elements(country, pollutant):
-
     df = sector_emissions_per_country(country, pollutant)
 
     hist = px.bar(df,
@@ -174,6 +173,8 @@ def show_initial_elements(country, pollutant):
                        yaxis={'showgrid': False},
                        height=650)
     return hist
+
+
 # ----------------------------------------------------------------------------------------------------------------------
 
 # Control panel + map
@@ -249,6 +250,7 @@ def update_description(val):
             "ich liebe dih; und nine"
         )
     return text
+
 
 if __name__ == "__main__":
     app.run_server(debug=True)
