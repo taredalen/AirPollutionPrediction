@@ -142,7 +142,11 @@ histogram = html.Div(
 @app.callback(Output('world-map', 'figure'),
               Input('dropdown-component', 'value'))
 def show_initial_elements(country):
-    figure = px.scatter_mapbox(country_df_map(country),
+    df = country_df_map(country)
+    print(df['reportingYear'].unique())
+    print(df['pollutant'].unique())
+
+    figure = px.scatter_mapbox(df,
                                lat='Latitude', lon='Longitude', hover_name='countryName',
                                hover_data=['EPRTRSectorCode', 'emissions'],
                                color_discrete_sequence=['fuchsia'], zoom=4.5, height=650)
@@ -161,9 +165,6 @@ def show_initial_elements(country):
               Input('dropdown-component-sector', 'value'))
 def show_initial_elements(country, pollutant, sector):
     df = sector_emissions_per_country(country, pollutant, sector)
-
-    print(df['Unit'].unique())
-    print(df.info())
     hist = px.bar(df,
                   x='Year', y='Emissions', color='Sector_label_EEA', barmode='overlay',
                   hover_data=['Sector_name'],
