@@ -1,15 +1,12 @@
+import dash
+import dash_daq as daq
+from dash import Dash, dcc, html, callback, Input, Output
+from data import *
+
+import plotly.express as px
 import warnings
 
 warnings.filterwarnings('ignore')
-
-import dash
-import dash_core_components as dcc
-import dash_daq as daq
-import dash_html_components as html
-import plotly.express as px
-from dash.dependencies import Input, Output, State
-
-from data import *
 
 MAPBOX_ACCESS_TOKEN: str = open('mapbox_token').read()
 MAPBOX_STYLE = "mapbox://styles/plotlymapbox/cjyivwt3i014a1dpejm5r7dwr"
@@ -80,17 +77,6 @@ side_panel_layout = html.Div(
 )
 
 
-# Satellite location tracker
-
-# Helper to straighten lines on the map
-def flatten_path(xy1, xy2):
-    diff_rate = (xy2 - xy1) / 100
-    res_list = []
-    for i in range(100):
-        res_list.append(xy1 + i * diff_rate)
-    return res_list
-
-
 map_graph2 = html.Div(
     id="world-map-wrapper",
     children=[
@@ -145,6 +131,8 @@ def show_initial_elements(country):
     df = country_df_map(country)
     print(df['reportingYear'].unique())
     print(df['pollutant'].unique())
+
+    print(df['countryName'].unique())
 
     figure = px.scatter_mapbox(df,
                                lat='Latitude', lon='Longitude', hover_name='countryName',

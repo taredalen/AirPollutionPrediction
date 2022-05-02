@@ -14,10 +14,7 @@ Data sets:
 * eea.europa.eu/themes/air/air-emissions-data
 
 Next week:
-* Computing environment to run ML experiments
-* Linear regression on tabular and time series data
-* EDA (Exploration Data Analysis) 
-
-
-
+* L : F2_4, F3_2
+* S : F1_4, F4_2
+* A : F5_2, F7_1
 // TODO : afficher des unites 
