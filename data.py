@@ -23,6 +23,7 @@ def get_map_df():
     print(df['reportingYear'].unique())
     return df
 get_map_df()
+
 #-----------------------------------------------------------------------------------------------------------------------
 
 def clear_clrtap_df():
@@ -60,7 +61,8 @@ def clear_clrtap_df():
     unit_values = [df['Emissions']/1000000, df['Emissions']*1000000, df['Emissions']/1000]
     df['Emissions'] = np.select(unit_conditions, unit_values, default=df['Emissions'])
 
-    df.drop(columns='Unit', axis=1) #  TODO : data standardization ?? impossible to drop column, check for later
+    df.drop(columns='Unit', inplace=True) #  TODO : data standardization ?? impossible to drop column, check for later
+    # min max model, drop national total
 
     df.to_csv(r'clean_clrtap.csv', index=False, sep='\t')
 

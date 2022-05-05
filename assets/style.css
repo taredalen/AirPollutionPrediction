@@ -39,6 +39,11 @@ body {
     align-items: flex-start;
     background-color: #2b2b2b;
     flex: 1 16%;
+    position:fixed;
+    width: 200px;
+    height: 100%;
+    overflow-y:scroll;
+
 }
 
 #satellite-dropdown-text {
@@ -186,8 +191,10 @@ body {
     display: flex;
     flex-direction: column;
     flex: 5 83%;
-    padding: 4rem 3rem;
-}
+    padding: 4rem 3rem 0 370px;
+    width: 60%;
+    overflow-y:scroll;
+  }
 
 @media (max-width: 550px) {
     #panel-upper-lower {
@@ -333,17 +340,21 @@ body {
     display: block;
     font-size: 1.3rem;
     font-weight: normal;
- }
+  }
 #histogram-dropdown {
     display: block;
     font-weight: normal;
     width: 200px;
     font-size: 0.8rem;
+    font-palette:  #fec036;
+    font-family: "Open Sans", sans-serif;
+
   }
 #histogram-dropdown-sector {
     display: block;
     font-size: 0.8rem;
     font-weight: normal;
+    font-palette:  #fec036;
     width: 300px;
   }
 #control-panel-toggle-minute {
@@ -868,3 +879,4 @@ body {
         margin-bottom: 3rem;
     }
 }
+
