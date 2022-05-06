@@ -17,4 +17,19 @@ Next week:
 * L : F2_4, F3_2
 * S : F1_4, F4_2
 * A : F5_2, F7_1
+
+F1_4
+F5_2
+
 // TODO : afficher des unites 
+
+
+- add period (year from ::  to)
+- amputation data => vraisemblance
+- echelle des villes => secteur 
+- prediction : decision tree regression / random forest / regression lin/lasso(penalisation des donnees à 0)
+- total emissions/country == all cities; create  csv per country +fast dash loading 
+
+next week : merge clean dataset + show in dash
+
+sout : 8 juin, 

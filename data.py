@@ -20,7 +20,6 @@ def get_map_df():
     url = os.path.join(APP_PATH, os.path.join('data', 'F1_4_Detailed releases at facility level with E-PRTR Sector '
                                                       'and Annex I Activity detail into Air.csv'))
     df = pd.read_csv(url, on_bad_lines='skip', sep=',')
-    print(df['reportingYear'].unique())
     return df
 get_map_df()
 
