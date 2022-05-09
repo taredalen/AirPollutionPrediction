@@ -7,9 +7,15 @@ import plotly.express as px
 import warnings
 
 warnings.filterwarnings('ignore')
-
+#-----------------------------------------------------------------------------------------------------------------------
 MAPBOX_ACCESS_TOKEN: str = open('mapbox_token').read()
 MAPBOX_STYLE = "mapbox://styles/plotlymapbox/cjyivwt3i014a1dpejm5r7dwr"
+
+countries = ['Finland' 'France' 'Ireland' 'Portugal' 'Bulgaria' 'Croatia' 'Estonia' 'Latvia' 'Malta' 'Slovenia' 
+             'Norway' 'Denmark' 'Germany' 'Greece' 'Sweden' 'Cyprus' 'Lithuania' 'Poland' 'Romania' 'EU28' 'Iceland'
+             'Austria' 'Italy' 'United Kingdom' 'Belgium' 'Netherlands' 'Spain' 'Czech Republic' 'Slovakia' 'Hungary'
+             'Turkey' 'EEA33' 'Switzerland' 'Luxembourg' 'Liechtenstein']
+#-----------------------------------------------------------------------------------------------------------------------
 
 app = dash.Dash(
     __name__,
@@ -52,13 +58,13 @@ map_toggle = daq.ToggleSwitch(
 
 satellite_dropdown = dcc.Dropdown(
     id="dropdown-component",
-    options=get_clrtap_df()['Country'].unique(),
+    options=countries,
     clearable=False,
     value="France",
 )
 
 satellite_dropdown_text = html.P(
-    id="satellite-dropdown-text", children=["Air Pollution", html.Br(), " Dashboard"]
+    id="satellite-dropdown-text", children=['Air Pollution', html.Br(), ' Dashboard']
 )
 
 satellite_title = html.H1(id="satellite-name", children="")
