@@ -74,8 +74,10 @@ def get_polluants():
     index_pollutant = df[df['count'] < df['count'].mean()].index
     df.drop(index_pollutant, inplace=True)
 
+    print(np.append('All', df['Pollutant_name']))
     return np.append('All', df['Pollutant_name'])
 
+get_polluants()
 #----------------------------------------------------------------------------------------------------------------------
 def country_df_map(country):
     map_df = get_map_df()

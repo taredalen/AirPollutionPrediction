@@ -11,10 +11,12 @@ warnings.filterwarnings('ignore')
 MAPBOX_ACCESS_TOKEN: str = open('mapbox_token').read()
 MAPBOX_STYLE = "mapbox://styles/plotlymapbox/cjyivwt3i014a1dpejm5r7dwr"
 
-countries = ['Finland' 'France' 'Ireland' 'Portugal' 'Bulgaria' 'Croatia' 'Estonia' 'Latvia' 'Malta' 'Slovenia' 
-             'Norway' 'Denmark' 'Germany' 'Greece' 'Sweden' 'Cyprus' 'Lithuania' 'Poland' 'Romania' 'EU28' 'Iceland'
-             'Austria' 'Italy' 'United Kingdom' 'Belgium' 'Netherlands' 'Spain' 'Czech Republic' 'Slovakia' 'Hungary'
-             'Turkey' 'EEA33' 'Switzerland' 'Luxembourg' 'Liechtenstein']
+countries = ['Bulgaria', 'Slovakia', 'Malta', 'Poland', 'Greece', 'Hungary', 'Romania', 'Denmark', 'United Kingdom',
+             'Sweden', 'Italy', 'Netherlands', 'Iceland', 'Estonia', 'Ireland', 'Lithuania', 'Belgium', 'Cyprus',
+             'Switzerland', 'Norway', 'Portugal', 'Finland', 'France', 'Croatia', 'Austria', 'Slovenia', 'Spain',
+             'Germany', 'Latvia', 'Luxembourg']
+
+pollutants = ['All', 'CO', 'NH3', 'NMVOC', 'NOx', 'PM10', 'PM2.5', 'SOx', 'TSP']
 #-----------------------------------------------------------------------------------------------------------------------
 
 app = dash.Dash(
@@ -84,10 +86,10 @@ side_panel_layout = html.Div(
 
 
 map_graph2 = html.Div(
-    id="world-map-wrapper",
+    id='world-map-wrapper',
     children=[
         dcc.Graph(
-            id="world-map",
+            id='world-map',
             config={"displayModeBar": False, "scrollZoom": True},
         ),
     ],
@@ -114,7 +116,7 @@ histogram = html.Div(
                 html.H1(
                     id='histogram-dropdown',
                     children=[dcc.Dropdown(id='dropdown-component-second',
-                                           options=get_polluants(),
+                                           options=pollutants,
                                            clearable=False,
                                            value='All')]
                 )
