@@ -24,12 +24,15 @@ F5_2
 // TODO : afficher des unites 
 
 
-- add period (year from ::  to)
-- amputation data => vraisemblance
+- add period (year from ::  to)  
+- amputation data => vraisemblance ⎷
 - echelle des villes => secteur 
+- total emissions/country == all cities; create  csv per country +fast dash loading   ⎷
 - prediction : decision tree regression / random forest / regression lin/lasso(penalisation des donnees à 0)
-- total emissions/country == all cities; create  csv per country +fast dash loading 
 
-next week : merge clean dataset + show in dash
+
+- prediction : fenetre glissante => l'année 90 pour comparer celle de 91 afin de comparer les resultats pour chaque 
+  modele, y = emissions, var dep=sector, pollutant, pas besoin de separer en train/test avec la fenetre glissante 
+next week : merge clean dataset + show in dash, plot de prediction pour chaque modele
 
 sout : 8 juin, 

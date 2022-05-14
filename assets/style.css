@@ -46,7 +46,7 @@ body {
 
 }
 
-#satellite-dropdown-text {
+#country-dropdown-text {
     color: #fec036;
     font-family: "Open Sans", sans-serif;
     font-size: 2rem;
@@ -70,11 +70,11 @@ body {
     cursor: pointer;
 }
 
-#satellite-dropdown:hover, #satellite-dropdown .Select:hover {
+#country-dropdown:hover, #country-dropdown .Select:hover {
     cursor: pointer;
 }
 
-#satellite-dropdown {
+#country-dropdown {
     width: 100%;
 }
 
@@ -112,7 +112,7 @@ body {
     color: white;
 }
 
-#satellite-name {
+#country-name {
     font-family: "Open Sans", sans-serif;
     font-size: 1.2rem;
     letter-spacing: 0.1rem;
@@ -127,14 +127,14 @@ body {
     cursor: pointer;
 }
 
-.satellite-description {
+.country-description {
     font-weight: lighter;
     font-size: 0.9rem;
     margin: 0;
 }
 
 @media (max-width: 1500px) {
-    #satellite-dropdown-text {
+    #country-dropdown-text {
         font-size: 1.8rem;
     }
 
@@ -142,11 +142,11 @@ body {
         font-size: 0.8rem !important;
     }
 
-    #satellite-name {
+    #country-name {
         font-size: 1rem;
     }
 
-    .satellite-description {
+    .country-description {
         font-size: 0.7rem;
     }
 }
@@ -163,7 +163,7 @@ body {
         align-items: center;
     }
 
-    #satellite-dropdown-text {
+    #country-dropdown-text {
         text-align: center;
     }
 
@@ -171,7 +171,7 @@ body {
         align-items: center;
     }
 
-    .satellite-description {
+    .country-description {
         text-align: center;
     }
 
