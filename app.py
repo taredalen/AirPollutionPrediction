@@ -29,6 +29,20 @@ side_panel_layout = html.Div(
         html.P(id='country-dropdown-text', children=['Air Pollution', html.Br(), ' Dashboard']),
         html.Div(id='country-dropdown',
                  children=dcc.Dropdown(id='dropdown-component', options=countries, clearable=False, value='France')),
+        html.Br(),
+        html.Div(id='city-dropdown',
+                 children=dcc.Dropdown(
+                     id='city-dropdown-component',
+                     options=[],
+                     clearable=False,
+                     value='IVRY SUR SEINE')),
+        html.Br(),
+        html.Div(id='sector-dropdown',
+                 children=dcc.Dropdown(
+                     id='sector-dropdown-component',
+                     options=[],
+                     clearable=False,)),
+        html.Br(),
         html.Div(id='panel-side-text', children=[
             html.H1(id='country-name', children=''),
             html.P(className='country-description', id='country-description', children=[''])
@@ -51,7 +65,7 @@ histogram = html.Div(
                         id='dropdown-component-sector',
                         options=np.append('All', get_clrtap_df()['Sector_label_EEA'].unique()),
                         clearable=False,
-                        value='All'
+                        value='ALL'
                     )]
                 ),
                 html.H1(
@@ -75,11 +89,15 @@ map_graph = html.Div(
     children=[dcc.Graph(id='world-map', config={'displayModeBar': False, 'scrollZoom': True})]
 )
 
-# Show mapbox & histogram related to the CLRTAP Dataset ----------------------------------------------------------------
+# Show mapbox related to the  ------------------------------------------------------------------------------------------
+
 @app.callback(Output('world-map', 'figure'),
+              Output('city-dropdown-component', 'options'),
+              Output('sector-dropdown-component', 'options'),
               Input('dropdown-component', 'value'))
 def show_initial_elements(country):
-    figure = px.scatter_mapbox(country_df_map(country),
+    df = country_df_map(country)
+    figure = px.scatter_mapbox(df,
                                lat='Latitude', lon='Longitude', hover_name='Country',
                                hover_data=['eprtrSectorName', 'Emissions', 'EPRTRAnnexIMainActivityCode', 'City'],
                                color_discrete_sequence=['fuchsia'], zoom=4.5, height=650)
@@ -89,7 +107,12 @@ def show_initial_elements(country):
                          autosize=True,
                          paper_bgcolor='#1e1e1e',
                          plot_bgcolor='#1e1e1e')
-    return figure
+    city_options = np.append('ALL', df['City'].unique())
+    country_options = np.append('ALL', df['City'].unique())
+
+    return figure, city_options, country_options
+
+# Show histogram related to the CLRTAP Dataset -------------------------------------------------------------------------
 
 @app.callback(Output('histogram-graph', 'figure'),
               Input('dropdown-component', 'value'),

@@ -94,6 +94,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/data/data_Romania.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="&#9;" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/data/data_Sweden.csv">
           <value>
             <Attribute>

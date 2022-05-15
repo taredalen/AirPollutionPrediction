@@ -46,7 +46,24 @@ body {
 
 }
 
-#country-dropdown-text {
+#country-dropdown-text, #city-dropdown-text, #city-dropdown-text{
+    color: #fec036;
+    font-family: "Open Sans", sans-serif;
+    font-size: 2rem;
+    font-weight: normal;
+    word-break: normal;
+    margin: 0 1rem 1rem 0;
+}
+#city-dropdown-text{
+    color: #fec036;
+    font-family: "Open Sans", sans-serif;
+    font-size: 2rem;
+    font-weight: normal;
+    word-break: normal;
+    margin: 10rem 10rem 10rem 10rem;
+}
+
+#city-dropdown-text{
     color: #fec036;
     font-family: "Open Sans", sans-serif;
     font-size: 2rem;
@@ -75,6 +92,22 @@ body {
 }
 
 #country-dropdown {
+    width: 100%;
+}
+
+#city-dropdown:hover, #city-dropdown .Select:hover {
+    cursor: pointer;
+}
+
+#city-dropdown {
+    width: 100%;
+}
+
+#sector-dropdown:hover, #sector-dropdown .Select:hover {
+    cursor: pointer;
+}
+
+#sector-dropdown {
     width: 100%;
 }
 
@@ -126,6 +159,17 @@ body {
     text-align: center;
     cursor: pointer;
 }
+#city-dropdown-component {
+    color: #0f0f0f;
+    text-align: center;
+    cursor: pointer;
+}
+
+#sector-dropdown-component {
+    color: #0f0f0f;
+    text-align: center;
+    cursor: pointer;
+}
 
 .country-description {
     font-weight: lighter;
@@ -134,11 +178,17 @@ body {
 }
 
 @media (max-width: 1500px) {
-    #country-dropdown-text {
+    #country-dropdown-text, #city-dropdown-text, #sector-dropdown-text {
         font-size: 1.8rem;
     }
 
     #dropdown-component {
+        font-size: 0.8rem !important;
+    }
+    #city-dropdown-component {
+        font-size: 0.8rem !important;
+    }
+    #sector-dropdown-component {
         font-size: 0.8rem !important;
     }
 
