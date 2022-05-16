@@ -36,3 +36,7 @@ F5_2
 next week : merge clean dataset + show in dash, plot de prediction pour chaque modele
 
 sout : 8 juin, 
+
+
+---
+df.dropna() for map data??????

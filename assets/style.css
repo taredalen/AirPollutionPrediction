@@ -46,12 +46,12 @@ body {
 
 }
 
-#country-dropdown-text, #city-dropdown-text, #city-dropdown-text{
+#country-dropdown-text{
     color: #fec036;
     font-family: "Open Sans", sans-serif;
     font-size: 2rem;
     font-weight: normal;
-    word-break: normal;
+    word-break: break-all;
     margin: 0 1rem 1rem 0;
 }
 #city-dropdown-text{
@@ -59,16 +59,16 @@ body {
     font-family: "Open Sans", sans-serif;
     font-size: 2rem;
     font-weight: normal;
-    word-break: normal;
+    word-break: break-all;
     margin: 10rem 10rem 10rem 10rem;
 }
 
-#city-dropdown-text{
+#sector-dropdown-text{
     color: #fec036;
     font-family: "Open Sans", sans-serif;
     font-size: 2rem;
     font-weight: normal;
-    word-break: normal;
+    word-break: break-all;
     margin: 0 0 1rem 0;
 }
 
@@ -77,6 +77,10 @@ body {
     color: white !important;
     cursor: pointer;
     text-align: left;
+    width: 100%;
+    overflow: hidden;
+    white-space: pre;
+    text-overflow: ellipsis;
 }
 
 .Select--single > .Select-control .Select-value, .Select-placeholder {
@@ -85,6 +89,10 @@ body {
     color: white;
     background-color: #2b2b2b;
     cursor: pointer;
+    width: 100%;
+    overflow: hidden;
+    white-space: pre;
+    text-overflow: ellipsis;
 }
 
 #country-dropdown:hover, #country-dropdown .Select:hover {
@@ -111,8 +119,16 @@ body {
     width: 100%;
 }
 
+.Select {
+    width: 100%;
+}
+
 .Select-control, .Select-multi-value-wrapper, .Select-menu-outer div {
     background-color: #2b2b2b;
+    width: 100%;
+    overflow: hidden;
+    white-space: pre;
+    text-overflow: ellipsis;
 }
 
 .Select-control, .Select, .Select-value-label, .Select-clear-zone {
@@ -259,7 +275,7 @@ body {
 #world-map-wrapper {
     height: 50rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: flex-end;
     margin-bottom: 3rem;
 }
@@ -398,8 +414,8 @@ body {
     font-size: 0.8rem;
     font-palette:  #fec036;
     font-family: "Open Sans", sans-serif;
+}
 
-  }
 #histogram-dropdown-sector {
     display: block;
     font-size: 0.8rem;

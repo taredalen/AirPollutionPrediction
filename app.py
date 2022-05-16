@@ -35,13 +35,14 @@ side_panel_layout = html.Div(
                      id='city-dropdown-component',
                      options=[],
                      clearable=False,
-                     value='IVRY SUR SEINE')),
+                     value='All')),
         html.Br(),
         html.Div(id='sector-dropdown',
                  children=dcc.Dropdown(
                      id='sector-dropdown-component',
                      options=[],
-                     clearable=False,)),
+                     clearable=False,
+                     value='All')),
         html.Br(),
         html.Div(id='panel-side-text', children=[
             html.H1(id='country-name', children=''),
@@ -65,7 +66,7 @@ histogram = html.Div(
                         id='dropdown-component-sector',
                         options=np.append('All', get_clrtap_df()['Sector_label_EEA'].unique()),
                         clearable=False,
-                        value='ALL'
+                        value='All'
                     )]
                 ),
                 html.H1(
@@ -86,17 +87,38 @@ histogram = html.Div(
 
 map_graph = html.Div(
     id='world-map-wrapper',
-    children=[dcc.Graph(id='world-map', config={'displayModeBar': False, 'scrollZoom': True})]
+    children=[
+        dcc.Graph(id='world-map', config={'displayModeBar': False, 'scrollZoom': True}),
+        dcc.Slider(id='year-slider',
+        min=1,
+        max=10,
+        value=1,
+        marks={k: '{}'.format(k) for k in range(1,11)})
+    ]
 )
+
+@app.callback(Output('year-slider', 'min'),
+              Output('year-slider', 'max'),
+              Output('year-slider', 'value'),
+              Output('year-slider', 'marks'),
+              Input('dropdown-component', 'value')
+              )
+def show_year_slider(country):
+    df = get_df(country)
+    marks = {str(year): str(year) for year in df['Year'].unique()},
+    return df['Year'].min(), df['Year'].max(), df['Year'].min(), marks
 
 # Show mapbox related to the  ------------------------------------------------------------------------------------------
 
 @app.callback(Output('world-map', 'figure'),
               Output('city-dropdown-component', 'options'),
               Output('sector-dropdown-component', 'options'),
-              Input('dropdown-component', 'value'))
-def show_initial_elements(country):
-    df = country_df_map(country)
+              Input('dropdown-component', 'value'),
+              Input('city-dropdown-component', 'value'),
+              Input('sector-dropdown-component', 'value'),
+              )
+def show_initial_elements(country, city, sector):
+    df = country_df_map(country, city, sector)
     figure = px.scatter_mapbox(df,
                                lat='Latitude', lon='Longitude', hover_name='Country',
                                hover_data=['eprtrSectorName', 'Emissions', 'EPRTRAnnexIMainActivityCode', 'City'],
@@ -107,10 +129,12 @@ def show_initial_elements(country):
                          autosize=True,
                          paper_bgcolor='#1e1e1e',
                          plot_bgcolor='#1e1e1e')
-    city_options = np.append('ALL', df['City'].unique())
-    country_options = np.append('ALL', df['City'].unique())
 
-    return figure, city_options, country_options
+    city_options = np.append('All', df['City'].unique())
+    sector_options = np.append('All', df['eprtrSectorName'].unique())
+
+    print(sector_options)
+    return figure, city_options, sector_options
 
 # Show histogram related to the CLRTAP Dataset -------------------------------------------------------------------------
 
