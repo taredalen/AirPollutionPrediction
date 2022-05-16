@@ -3,6 +3,7 @@ import plotly.express as px
 
 from dash import dcc, html, Input, Output
 from data import *
+
 # -----------------------------------------------------------------------------------------------------------------------
 MAPBOX_ACCESS_TOKEN: str = open('mapbox_token').read()
 MAPBOX_STYLE = 'mapbox://styles/plotlymapbox/cjyivwt3i014a1dpejm5r7dwr'
@@ -88,25 +89,58 @@ histogram = html.Div(
 map_graph = html.Div(
     id='world-map-wrapper',
     children=[
-        dcc.Graph(id='world-map', config={'displayModeBar': False, 'scrollZoom': True}),
-        dcc.Slider(id='year-slider',
-        min=1,
-        max=10,
-        value=1,
-        marks={k: '{}'.format(k) for k in range(1,11)})
+        dcc.Graph(id='world-map', config={'displayModeBar': False, 'scrollZoom': True})
     ]
 )
 
-@app.callback(Output('year-slider', 'min'),
-              Output('year-slider', 'max'),
-              Output('year-slider', 'value'),
-              Output('year-slider', 'marks'),
+map_slider = html.H1(
+    id='map-slider',
+    children=[
+
+    ]
+)
+
+
+@app.callback(Output('map-slider', 'children'),
               Input('dropdown-component', 'value')
               )
 def show_year_slider(country):
     df = get_df(country)
-    marks = {str(year): str(year) for year in df['Year'].unique()},
-    return df['Year'].min(), df['Year'].max(), df['Year'].min(), marks
+
+    slider = dcc.Slider(
+        df['Year'].min(),
+        df['Year'].max(),
+        df['Year'].min(),
+        marks={str(year): str(year) for year in df['Year'].unique()},
+        id='year-slider'
+    )
+    return slider
+
+# @app.callback(
+#     Output('world-map', 'figure'),
+#     Input('year-slider', 'value'),
+#     Input('dropdown-component', 'value'))
+# def update_figure(selected_year, country):
+#
+#     df = get_df(country)
+#     filtered_df = df[df.year == selected_year]
+#
+#     fig = px.scatter_mapbox(filtered_df,
+#                                lat='Latitude', lon='Longitude', hover_name='Country',
+#                                hover_data=['eprtrSectorName', 'Emissions', 'EPRTRAnnexIMainActivityCode', 'City'],
+#                                color_discrete_sequence=['fuchsia'], zoom=4.5, height=650)
+#     fig.update_layout(mapbox_accesstoken=MAPBOX_ACCESS_TOKEN,
+#                          mapbox_style=MAPBOX_STYLE,
+#                          margin={'r': 0, 't': 0, 'l': 0, 'b': 0},
+#                          autosize=True,
+#                          paper_bgcolor='#1e1e1e',
+#                          plot_bgcolor='#1e1e1e')
+#     fig.update_layout(transition_duration=500)
+#
+#
+#
+#     return fig
+
 
 # Show mapbox related to the  ------------------------------------------------------------------------------------------
 
@@ -135,6 +169,7 @@ def show_initial_elements(country, city, sector):
 
     print(sector_options)
     return figure, city_options, sector_options
+
 
 # Show histogram related to the CLRTAP Dataset -------------------------------------------------------------------------
 
@@ -166,6 +201,7 @@ def show_initial_elements(country, pollutant, sector):
 main_panel_layout = html.Div(
     id='panel-upper-lower',
     children=[
+        map_slider,
         map_graph,
         html.Div(
             id='panel',
@@ -174,6 +210,7 @@ main_panel_layout = html.Div(
                 html.Div(
                     id='panel-lower',
                     children=[
+
                         html.Div(
                             id='panel-lower-1',
                             children=[
