@@ -1,9 +1,9 @@
 # Air Pollution Prediction
 
 
-```ruby
-https://air-pollution-prediction-app.herokuapp.com
-```
+
+[```Heroku App Demo ```](https://air-pollution-prediction-app.herokuapp.com)
+
 
 
 # Context and Motivation
