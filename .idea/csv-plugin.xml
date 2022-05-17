@@ -10,7 +10,35 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/data/air_data_Croatia.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="&#9;" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/air_data_France.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="&#9;" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/air_data_United Kingdom.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="&#9;" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/data/clean_clrtap.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="&#9;" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/clrtap_data_Spain.csv">
           <value>
             <Attribute>
               <option name="separator" value="&#9;" />

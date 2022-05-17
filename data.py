@@ -8,20 +8,21 @@ warnings.filterwarnings('ignore')
 APP_PATH = str(pathlib.Path(__file__).parent.resolve())
 # -----------------------------------------------------------------------------------------------------------------------
 
-def get_clrtap_df():
-    url = os.path.join(APP_PATH, os.path.join('data', 'clean_clrtap.csv'))
+def get_clrtap_df(country):
+    url = os.path.join(APP_PATH, os.path.join('data', 'clrtap_data_' + country + '.csv'))
     df = pd.read_csv(url, on_bad_lines='skip', sep='\t')
+    df.dropna()
     return df
 
-def get_df(country):
-    url = os.path.join(APP_PATH, os.path.join('data', 'data_' + country + '.csv'))
+def get_air_df(country):
+    url = os.path.join(APP_PATH, os.path.join('data', 'air_data_' + country + '.csv'))
     df = pd.read_csv(url, on_bad_lines='skip', sep='\t')
     df.dropna()
     return df
 
 # ----------------------------------------------------------------------------------------------------------------------
 def country_df_map(country, city, sector):
-    map_df = get_df(country)
+    map_df = get_air_df(country)
 
     if city != 'All':
         index_city = map_df[map_df['City'] != city].index
@@ -38,9 +39,7 @@ def country_df_map(country, city, sector):
 
 
 def sector_emissions_per_country(country, pollutant, sector):
-    df = get_df(country)
-
-    df = df[df['Country_Code'].notna()]
+    df = get_clrtap_df(country)
 
     if pollutant != 'All':
         index_pollutant = df[df['Pollutant_name'] != pollutant].index

@@ -273,18 +273,21 @@ body {
 /**********************************************************************************************************************/
 
 #world-map-wrapper {
-    height: 50rem;
+    height: 42rem;
     display: flex;
     flex-direction: row;
     align-items: flex-end;
-    margin-bottom: 3rem;
+    margin-bottom: 0rem;
 }
 
 #world-map {
     height: 100%;
     width: 100%;
 }
+#year-slider{
+    margin-bottom: 3rem;
 
+}
 #control-panel-toggle-map {
     margin: 0 !important;
 }
@@ -946,3 +949,29 @@ body {
     }
 }
 
+/**********************************************************************************************************************/
+/*Slider*/
+/**********************************************************************************************************************/
+
+.rc-slider-track {
+  background-color: #FF00FF;
+    color: #383838;
+}
+
+.rc-slider-dot-active {
+  border-color: #FF00FF;
+  border: solid 2px #FF00FF;
+}
+
+.rc-slider-handle {
+  background-color: #FF00FF;
+  border-color:  #FF00FF;
+}
+
+.rc-slider-handle:hover {
+  border-color:  #FF00FF;
+}
+
+.rc-slider-handle-active:active {
+  border-color: #FF00FF;
+}

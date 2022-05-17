@@ -130,3 +130,38 @@ def create_csv_for_county():
     return result
 
 
+def create_map_csv_for_county():
+
+    list_countries = country_list_intersection()
+
+    for i in range(len(df_air)):
+        if df_air.loc[i, 'countryName'] == 'Czechia':
+            df_air.loc[i, 'countryName'] = 'Czech Republic'
+
+    df = df_air.rename(columns={'countryName': 'Country',
+                                'pollutant': 'Pollutant',
+                                'emissions': 'Emissions',
+                                'reportingYear': 'Year'})
+
+    for c in range(len(list_countries)):
+        print(list_countries[c])
+        grouped = df.groupby(df['Country'])
+        country = grouped.get_group(list_countries[c])
+        country.to_csv(r'air_data_' + list_countries[c] + '.csv', index=False, sep='\t')
+
+    return df
+
+
+def create_clrtap_csv_for_county():
+    df = df_clrtap
+    list_countries = country_list_intersection()
+
+    for c in range(len(list_countries)):
+        print(list_countries[c])
+        grouped = df.groupby(df['Country'])
+        country = grouped.get_group(list_countries[c])
+        country.to_csv(r'clrtap_data_' + list_countries[c] + '.csv', index=False, sep='\t')
+
+    return df
+
+create_clrtap_csv_for_county()

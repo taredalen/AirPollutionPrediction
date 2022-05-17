@@ -13,7 +13,12 @@ countries = ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Repub
              'Luxembourg', 'Malta', 'Netherlands', 'Norway', 'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia',
              'Spain', 'Sweden', 'Switzerland', 'United Kingdom']
 
+sectors = ['All', 'National total for the entire territory', 'Energy production and distribution',
+           'Energy use in industry', 'Road transport', 'Non-road transport', 'Commercial, institutional and households',
+           'Industrial processes and product use', 'Agriculture', 'Waste', 'Other']
+
 pollutants = ['All', 'CO', 'NH3', 'NMVOC', 'NOx', 'PM10', 'PM2.5', 'SOx', 'TSP']
+years = [2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020]
 # -----------------------------------------------------------------------------------------------------------------------
 
 app = dash.Dash(__name__, meta_tags=[{'name': 'viewport', 'content': 'width=device-width, initial-scale=1.0'}])
@@ -65,7 +70,7 @@ histogram = html.Div(
                     id='histogram-dropdown-sector',
                     children=[dcc.Dropdown(
                         id='dropdown-component-sector',
-                        options=np.append('All', get_clrtap_df()['Sector_label_EEA'].unique()),
+                        options=sectors,
                         clearable=False,
                         value='All'
                     )]
@@ -80,69 +85,27 @@ histogram = html.Div(
                     )]
                 )
             ],
-        ), dcc.Graph(id='histogram-graph', config={'displayModeBar': False}, animate=True),
+        ),
+        dcc.Graph(id='histogram-graph', config={'displayModeBar': False}, animate=True),
     ],
 )
 
 # Map
 
+
 map_graph = html.Div(
     id='world-map-wrapper',
-    children=[
-        dcc.Graph(id='world-map', config={'displayModeBar': False, 'scrollZoom': True})
-    ]
+    children=[dcc.Graph(id='world-map', config={'displayModeBar': False, 'scrollZoom': True})]
 )
+slider = html.H1(dcc.Slider(
+    2007,
+    2020,
+    value=2007,
+    step=None,
+    marks={str(year): str(year) for year in years},
+    id='year-slider'
+))
 
-map_slider = html.H1(
-    id='map-slider',
-    children=[
-
-    ]
-)
-
-
-@app.callback(Output('map-slider', 'children'),
-              Input('dropdown-component', 'value')
-              )
-def show_year_slider(country):
-    df = get_df(country)
-
-    slider = dcc.Slider(
-        df['Year'].min(),
-        df['Year'].max(),
-        df['Year'].min(),
-        marks={str(year): str(year) for year in df['Year'].unique()},
-        id='year-slider'
-    )
-    return slider
-
-# @app.callback(
-#     Output('world-map', 'figure'),
-#     Input('year-slider', 'value'),
-#     Input('dropdown-component', 'value'))
-# def update_figure(selected_year, country):
-#
-#     df = get_df(country)
-#     filtered_df = df[df.year == selected_year]
-#
-#     fig = px.scatter_mapbox(filtered_df,
-#                                lat='Latitude', lon='Longitude', hover_name='Country',
-#                                hover_data=['eprtrSectorName', 'Emissions', 'EPRTRAnnexIMainActivityCode', 'City'],
-#                                color_discrete_sequence=['fuchsia'], zoom=4.5, height=650)
-#     fig.update_layout(mapbox_accesstoken=MAPBOX_ACCESS_TOKEN,
-#                          mapbox_style=MAPBOX_STYLE,
-#                          margin={'r': 0, 't': 0, 'l': 0, 'b': 0},
-#                          autosize=True,
-#                          paper_bgcolor='#1e1e1e',
-#                          plot_bgcolor='#1e1e1e')
-#     fig.update_layout(transition_duration=500)
-#
-#
-#
-#     return fig
-
-
-# Show mapbox related to the  ------------------------------------------------------------------------------------------
 
 @app.callback(Output('world-map', 'figure'),
               Output('city-dropdown-component', 'options'),
@@ -150,13 +113,16 @@ def show_year_slider(country):
               Input('dropdown-component', 'value'),
               Input('city-dropdown-component', 'value'),
               Input('sector-dropdown-component', 'value'),
+              Input('year-slider', 'value')
               )
-def show_initial_elements(country, city, sector):
+def show_initial_elements(country, city, sector, year):
     df = country_df_map(country, city, sector)
-    figure = px.scatter_mapbox(df,
+    filtered_df = df[df.Year == year]
+
+    figure = px.scatter_mapbox(filtered_df,
                                lat='Latitude', lon='Longitude', hover_name='Country',
                                hover_data=['eprtrSectorName', 'Emissions', 'EPRTRAnnexIMainActivityCode', 'City'],
-                               color_discrete_sequence=['fuchsia'], zoom=4.5, height=650)
+                               color_discrete_sequence=['fuchsia'], zoom=5, height=655)
     figure.update_layout(mapbox_accesstoken=MAPBOX_ACCESS_TOKEN,
                          mapbox_style=MAPBOX_STYLE,
                          margin={'r': 0, 't': 0, 'l': 0, 'b': 0},
@@ -201,8 +167,8 @@ def show_initial_elements(country, pollutant, sector):
 main_panel_layout = html.Div(
     id='panel-upper-lower',
     children=[
-        map_slider,
         map_graph,
+        slider,
         html.Div(
             id='panel',
             children=[
@@ -210,7 +176,6 @@ main_panel_layout = html.Div(
                 html.Div(
                     id='panel-lower',
                     children=[
-
                         html.Div(
                             id='panel-lower-1',
                             children=[
