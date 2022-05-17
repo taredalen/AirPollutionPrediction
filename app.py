@@ -6,7 +6,7 @@ from dash import dcc, html, Input, Output
 from data import *
 
 # -----------------------------------------------------------------------------------------------------------------------
-MAPBOX_ACCESS_TOKEN: str = open('mapbox_token').read()
+#MAPBOX_ACCESS_TOKEN: str = open('mapbox_token').read()
 MAPBOX_STYLE = 'mapbox://styles/plotlymapbox/cjyivwt3i014a1dpejm5r7dwr'
 
 countries = ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland',
