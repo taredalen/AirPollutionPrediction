@@ -5,6 +5,13 @@ import plotly.graph_objects as go
 from dash import dcc, html, Input, Output
 from data import *
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+MAPBOX_ACCESS_TOKEN = os.getenv('MAPBOX_ACCESS_TOKEN')
+
 # -----------------------------------------------------------------------------------------------------------------------
 #MAPBOX_ACCESS_TOKEN: str = open('mapbox_token').read()
 MAPBOX_STYLE = 'mapbox://styles/plotlymapbox/cjyivwt3i014a1dpejm5r7dwr'
