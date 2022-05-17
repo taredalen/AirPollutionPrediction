@@ -13,30 +13,18 @@ References
 Data sets:
 * eea.europa.eu/themes/air/air-emissions-data
 
-Next week:
-* L : F2_4, F3_2
-* S : F1_4, F4_2
-* A : F5_2, F7_1
-
-F1_4
-F5_2
-
-// TODO : afficher des unites 
 
 
-- add period (year from ::  to)  
+- add period (year from ::  to)  ⎷
 - amputation data => vraisemblance ⎷
-- echelle des villes => secteur 
+- echelle des villes => secteur ⎷
 - total emissions/country == all cities; create  csv per country +fast dash loading   ⎷
+
 - prediction : decision tree regression / random forest / regression lin/lasso(penalisation des donnees à 0)
 
 
-- prediction : fenetre glissante => l'année 90 pour comparer celle de 91 afin de comparer les resultats pour chaque 
-  modele, y = emissions, var dep=sector, pollutant, pas besoin de separer en train/test avec la fenetre glissante 
-next week : merge clean dataset + show in dash, plot de prediction pour chaque modele
+- prediction : fenetre glissante => l'année 90 pour comparer celle de 91 afin de comparer les résultats pour chaque 
+  modèle, y = emissions, var dep=sector, pollutant, pas besoin de séparer en train/test avec la fenetre glissante 
+next week : merge clean dataset + show in dash, plot de prediction pour chaque modèle
 
 sout : 8 juin, 
-
-
----
-df.dropna() for map data??????

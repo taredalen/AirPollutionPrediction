@@ -1,5 +1,6 @@
 import dash
 import plotly.express as px
+import plotly.graph_objects as go
 
 from dash import dcc, html, Input, Output
 from data import *
@@ -118,11 +119,13 @@ slider = html.H1(dcc.Slider(
 def show_initial_elements(country, city, sector, year):
     df = country_df_map(country, city, sector)
     filtered_df = df[df.Year == year]
+    print(df[df.Year == year])
 
     figure = px.scatter_mapbox(filtered_df,
                                lat='Latitude', lon='Longitude', hover_name='Country',
                                hover_data=['eprtrSectorName', 'Emissions', 'EPRTRAnnexIMainActivityCode', 'City'],
                                color_discrete_sequence=['fuchsia'], zoom=5, height=655)
+
     figure.update_layout(mapbox_accesstoken=MAPBOX_ACCESS_TOKEN,
                          mapbox_style=MAPBOX_STYLE,
                          margin={'r': 0, 't': 0, 'l': 0, 'b': 0},
@@ -130,8 +133,41 @@ def show_initial_elements(country, city, sector, year):
                          paper_bgcolor='#1e1e1e',
                          plot_bgcolor='#1e1e1e')
 
-    city_options = np.append('All', df['City'].unique())
-    sector_options = np.append('All', df['eprtrSectorName'].unique())
+    # figure = go.Figure(go.Scattermapbox(
+    #     lat=df['Latitude'],
+    #     lon=df['Longitude'],
+    #     mode='markers',
+    #     marker=go.scattermapbox.Marker(
+    #         autocolorscale=False,
+    #         showscale=True,
+    #         size=filtered_df['Emissions'],
+    #         opacity=0.8,
+    #         color=filtered_df['Emissions'],
+    #         colorscale='blues',
+    #         colorbar=dict(
+    #             title='',
+    #             thickness=20,
+    #             titleside='top',
+    #             outlinecolor='rgba(68,68,68,0)',
+    #             ticks='outside',
+    #             ticklen=3)
+    #     ),
+    # ))
+    #
+    # figure.update_layout(
+    #     autosize=True,
+    #      height=655,
+    #      plot_bgcolor='#1e1e1e',
+    #     paper_bgcolor='#1e1e1e',
+    #
+    #      mapbox=dict(
+    #         accesstoken=MAPBOX_ACCESS_TOKEN,
+    #         style=MAPBOX_STYLE,
+    #           zoom=5
+    #     ),
+    # )
+    city_options = np.append('All', filtered_df['City'].unique())
+    sector_options = np.append('All', filtered_df['eprtrSectorName'].unique())
 
     print(sector_options)
     return figure, city_options, sector_options
