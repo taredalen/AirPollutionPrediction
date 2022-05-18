@@ -24,6 +24,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/data/air_data_Norway.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="&#9;" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/air_data_Romania.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="&#9;" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/data/air_data_United Kingdom.csv">
           <value>
             <Attribute>
