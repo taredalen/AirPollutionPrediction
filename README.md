@@ -21,18 +21,13 @@ References
 Data sets:
 * eea.europa.eu/themes/air/air-emissions-data
 
+---
 
+Next steps :
 
-- add period (year from ::  to)  ⎷
-- amputation data => vraisemblance ⎷
-- echelle des villes => secteur ⎷
-- total emissions/country == all cities; create  csv per country +fast dash loading   ⎷
+- Expectation maximization (EM)\Inputing missing data
+  https://scikit-learn.org/stable/modules/impute.html
 
-- prediction : decision tree regression / random forest / regression lin/lasso(penalisation des donnees à 0)
-
-
-- prediction : fenetre glissante => l'année 90 pour comparer celle de 91 afin de comparer les résultats pour chaque 
-  modèle, y = emissions, var dep=sector, pollutant, pas besoin de séparer en train/test avec la fenetre glissante 
-next week : merge clean dataset + show in dash, plot de prediction pour chaque modèle
-
-sout : 8 juin, 
+- LIME, SHAP
+- causal inference, 
+- bayesian model
