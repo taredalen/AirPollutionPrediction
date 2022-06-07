@@ -3,10 +3,24 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="/data/CLRTAP_NVFR14_V21_GF.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/data/F1_4_clean_data.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/air_data_Belgium.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="&#9;" />
             </Attribute>
           </value>
         </entry>
@@ -59,6 +73,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/data/clrtap_data_Norway.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="&#9;" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/data/clrtap_data_Slovenia.csv">
           <value>
             <Attribute>
@@ -67,6 +88,13 @@
           </value>
         </entry>
         <entry key="/data/clrtap_data_Spain.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="&#9;" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/data/clrtap_data_United Kingdom.csv">
           <value>
             <Attribute>
               <option name="separator" value="&#9;" />

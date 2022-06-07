@@ -46,7 +46,7 @@ def clear_clrtap_df():
              '3I'])),
         (df['Sector_code'].isin(
             ['5A', '5B1', '5B2', '5C1a', '5C1bi', '5C1bii', '5C1biii', '5C1biv', '5C1bv', '5C1bvi', '5C2', '5D1', '5D2',
-             '5D3', '5E', '6A'])),
+             '5D3', '5E'])),
         (df['Sector_code'].isin(['6A', 'test'])),
         (df['Sector_code'].isin(['National total for the entire territory (based on fuel sold)', 'NATIONAL TOTAL']))]
 
