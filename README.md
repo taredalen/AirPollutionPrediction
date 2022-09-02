@@ -9,9 +9,9 @@
 </details>
 
 
-Also read more about projet and see PowerPoint presentation  [here](https://github.com/taredalen/air-pollution-prediction/tree/main/docs)
+Also read more about projet and see PowerPoint presentation  [here](https://drive.google.com/drive/folders/1yURQ4azVwdelEkA2HudBoAXYtolOKk8w?usp=sharing)
 
----
+
 # Context and Motivation
 Urbanization and industrialization may lead to several problems, including logistics, healthcare, and air-quality issues. Nowadays, the common occurrence of smog caused by industrialization increases has brought environmental pollution to its peak. The fine particulate matter (PM2.5) is one of the risky pollutants. According to the World Health Organization (WHO), almost 90% of people breathe polluted air that exceeds its air-quality guidelines [1]. Likewise, a few hours of repeated exposure to PM2.5 can trigger cardiovascular problems [2]-[4]. Poor air- quality not only threats the health and lives of individuals, but also impacts the economy. The Organization for Economic Cooperation and Development (OECD) estimates that air-pollution costs one percent of the world’s domestic product (GDP) [5]. As a result, effective systems to monitor and predict air-pollution are important tools for health reasons, as well as to support governments and decision makers. Nevertheless, the PM2.5 formation process is very complex, which demands meticulous data analysis methods. Machine learning methods may help in dealing with such endeavors, without requiring knowledge about the physical and/or chemical characteristics of atmospheric pollutants. Moreover, they can combine different data types including air pollutants, meteorological, and macroeconomics data to help us to understand their relationships.
 
@@ -27,9 +27,7 @@ References
 Data sets:
 * eea.europa.eu/themes/air/air-emissions-data
 
----
-
-Next steps and advancement:
+# Next steps and advancement:
 
 - Expectation maximization (EM)\Inputing missing data
   https://scikit-learn.org/stable/modules/impute.html
